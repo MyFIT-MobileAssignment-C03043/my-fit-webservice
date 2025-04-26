@@ -42,19 +42,20 @@ export class HealthController {
 
   // Route to get all daily records
   @Get('all-daily-records')
+  @ApiOperation({ summary: 'Lấy danh sách daily record' })
   getDailyRecords() {
     return this.healthService.getDailyRecords();
   }
 
   // Route to get daily records of userId by date
-  @ApiQuery({ name: 'userId', required: true, description: 'User ID' })
-  @ApiQuery({
-    name: 'date',
-    required: true,
-    description: 'Date in YYYY-MM-DD format',
-  })
-  @Get('daily-records')
-  getDailyRecordByUserAndDate(
+  // @ApiQuery({ name: 'userId', required: true, description: 'User ID' })
+  // @ApiQuery({
+  //   name: 'date',
+  //   required: true,
+  //   description: 'Date in YYYY-MM-DD format',
+  // })
+  @Get('daily-records/user')
+    getDailyRecordByUserAndDate(
     @Query('userId') userId: string,
     @Query('date') date: string,
   ) {
@@ -85,16 +86,11 @@ export class HealthController {
   @ApiResponse({ status: 400, description: 'Dữ liệu không hợp lệ.' })
   updateDailyRecordById(
     @Param('id') id: string,
-    @Body()
-    updateData: Partial<{
-      waterIntake: number;
-      steps: number;
-      caloriesIntake: number;
-      sleepHours: number;
-    }>,
+    @Body() updateData: { value: any }, // chỉ update value
   ) {
-    return this.healthService.updateDailyRecordById(id, updateData);
+    return this.healthService.updateDailyRecordById(id, updateData.value);
   }
+
 
   @Delete('daily-records')
   async deleteDailyRecord(

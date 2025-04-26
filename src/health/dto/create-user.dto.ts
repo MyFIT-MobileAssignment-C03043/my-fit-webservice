@@ -27,7 +27,6 @@ export class CreateUserDto {
   @IsNumber()
   weight: number;
 
-  @ApiProperty({ description: 'Ngày tạo tài khoản người dùng' })
-  @IsDate()
-  createdAt: Date;
+  @ApiProperty({ description: 'Ngày tạo tài khoản người dùng', required: false })
+  createdAt?: Date;
 }

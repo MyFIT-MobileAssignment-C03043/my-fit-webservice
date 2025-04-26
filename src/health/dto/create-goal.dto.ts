@@ -9,8 +9,8 @@ export class CreateGoalDto {
   @IsObjectId()
   userId: ObjectId;
 
-  @ApiProperty({ description: 'Loại mục tiêu', enum: ['water', 'steps', 'caloriesIntake', 'caloriesBurned', 'sleep', 'weight', 'height'] })
-  @IsEnum(['water', 'steps', 'caloriesIntake', 'caloriesBurned', 'sleep', 'weight', 'height'])
+  @ApiProperty({ description: 'Loại mục tiêu', enum: ['exerciseHours', 'steps', 'sleeping', 'weight', 'bodyFatPercentage', 'food', 'energyBurned', 'water'] })
+  @IsEnum(['exerciseHours', 'steps', 'sleeping', 'weight', 'bodyFatPercentage', 'food', 'energyBurned', 'water'])
   type: string;
 
   @ApiProperty({ description: 'Mục tiêu của người dùng', example: 2500 })

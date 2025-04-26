@@ -9,7 +9,15 @@ export class Goal {
   userId: string;
 
   @Prop()
-  type: string;
+  type: 
+    | 'exerciseHours' 
+    | 'steps' 
+    | 'sleeping' 
+    | 'weight' 
+    | 'bodyFatPercentage' 
+    | 'food' 
+    | 'energyBurned' 
+    | 'water';
 
   @Prop()
   target: number;
@@ -18,10 +26,10 @@ export class Goal {
   unit: string;
 
   @Prop()
-  startDate: Date;
+  startDate?: Date;
 
   @Prop()
-  endDate: Date;
+  endDate?: Date;
 
   @Prop()
   isActive: boolean;
