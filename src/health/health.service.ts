@@ -33,15 +33,15 @@ export class HealthService {
   }
 
   // Method to get all daily records
-  async getDailyRecords(): Promise<DailyRecord[]> {
-    return this.dailyRecordModel.find().exec();
+  async getDailyRecordsByUser(userId: string): Promise<DailyRecord[]> {
+    return this.dailyRecordModel.find({userId}).exec();
   }
 
   async getDailyRecordByUserAndDate(userId: string, date: string) {
     const start = moment(date).startOf('day').toDate();
     const end = moment(date).endOf('day').toDate();
 
-    return this.dailyRecordModel.findOne({
+    return this.dailyRecordModel.find({
       userId,
       date: { $gte: start, $lte: end },
     });

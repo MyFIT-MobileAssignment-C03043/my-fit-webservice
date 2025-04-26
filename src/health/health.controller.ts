@@ -42,9 +42,8 @@ export class HealthController {
 
   // Route to get all daily records
   @Get('all-daily-records')
-  @ApiOperation({ summary: 'Lấy danh sách daily record' })
-  getDailyRecords() {
-    return this.healthService.getDailyRecords();
+  getDailyRecordsByUser(@Query('userId') userId: string) {
+   return this.healthService.getDailyRecordsByUser(userId);
   }
 
   // Route to get daily records of userId by date
@@ -65,6 +64,17 @@ export class HealthController {
   // update daily records
   @Put('daily-records/:id')
   @ApiParam({ name: 'id' })
+  @ApiBody({
+    description: 'Giá trị cần cập nhật',
+    schema: {
+      type: 'object',
+      properties: {
+        value: { type: 'object' },
+      },
+      required: ['value'],
+    },
+  })
+  @ApiOperation({ summary: 'Cập nhật value của Daily Record theo ID' })
   updateDailyRecordById(
     @Param('id') id: string,
     @Body() updateData: { value: any }, // chỉ update value
