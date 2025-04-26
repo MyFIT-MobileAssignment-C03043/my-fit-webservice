@@ -44,6 +44,8 @@ export class HealthController {
   @Get('all-daily-records')
   getDailyRecordsByUser(@Query('userId') userId: string) {
    return this.healthService.getDailyRecordsByUser(userId);
+  getDailyRecordsByUser(@Query('userId') userId: string) {
+   return this.healthService.getDailyRecordsByUser(userId);
   }
 
   // Route to get daily records of userId by date
@@ -63,26 +65,7 @@ export class HealthController {
 
   // update daily records
   @Put('daily-records/:id')
-  @ApiOperation({ summary: 'Cập nhật bản ghi daily record theo ID' })
-  @ApiParam({
-    name: 'id',
-    required: true,
-    description: 'ID của DailyRecord cần cập nhật (MongoDB _id)',
-  })
-  @ApiBody({
-    schema: {
-      type: 'object',
-      properties: {
-        waterIntake: { type: 'number' },
-        steps: { type: 'number' },
-        caloriesIntake: { type: 'number' },
-        sleepHours: { type: 'number' },
-      },
-    },
-  })
-  @ApiResponse({ status: 200, description: 'Cập nhật thành công.', type: CreateDailyRecordDto })
-  @ApiResponse({ status: 404, description: 'Không tìm thấy bản ghi.' })
-  @ApiResponse({ status: 400, description: 'Dữ liệu không hợp lệ.' })
+  @ApiParam({ name: 'id' })
   updateDailyRecordById(
     @Param('id') id: string,
     @Body() updateData: { value: any }, // chỉ update value
