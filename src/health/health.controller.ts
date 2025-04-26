@@ -42,9 +42,8 @@ export class HealthController {
 
   // Route to get all daily records
   @Get('all-daily-records')
-  @ApiOperation({ summary: 'Lấy danh sách daily record' })
-  getDailyRecords() {
-    return this.healthService.getDailyRecords();
+  getDailyRecordsByUser(@Query('userId') userId: string) {
+   return this.healthService.getDailyRecordsByUser(userId);
   }
 
   // Route to get daily records of userId by date

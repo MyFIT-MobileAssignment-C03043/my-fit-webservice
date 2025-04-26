@@ -10,7 +10,7 @@ export class CreateDailyRecordDto {
   @IsEnum(['steps', 'calories', 'sleep', 'water', 'exercise'])
   typeRecord: 'steps' | 'calories' | 'sleep' | 'water' | 'exercise';
 
-  @ApiProperty({ description: 'Giá trị bản ghi, tuỳ theo loại record', example: { intake: 2500 } })
+  @ApiProperty({ description: 'Giá trị bản ghi, tuỳ theo loại record', example: { current: 2500, target: 5000} })
   @IsObject()
   value: any;
 
