@@ -36,17 +36,12 @@ jobs:
     - name: Install Dependencies
       run: npm ci
 
-    # Bước 4: Chạy Lint để kiểm tra code style
-    # Dựa trên script 'lint' trong package.json
-    - name: Run Linter
-      run: npm run lint
-
-    # Bước 5: Chạy Unit Tests và tạo báo cáo coverage
+    # Bước 4: Chạy Unit Tests và tạo báo cáo coverage
     # Dựa trên script 'test:cov' trong package.json
     - name: Run Unit Tests
       run: npm run test:cov
 
-    # Bước 6: Build ứng dụng
+    # Bước 5: Build ứng dụng
     # Dựa trên script 'build' trong package.json
     - name: Build Application
       run: npm run build

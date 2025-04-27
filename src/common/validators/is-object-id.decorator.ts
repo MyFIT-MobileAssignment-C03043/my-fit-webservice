@@ -15,7 +15,6 @@ export function IsObjectId(validationOptions?: ValidationOptions) {
         validate(value: any, args: ValidationArguments): boolean {
           return typeof value === 'string' && Types.ObjectId.isValid(value);
         },
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         defaultMessage(args: ValidationArguments): string {
           return `${args.property} phải là ObjectId hợp lệ`;
         },
