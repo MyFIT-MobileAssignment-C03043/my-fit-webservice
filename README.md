@@ -60,7 +60,5 @@ Dự án này sử dụng GitHub Actions để tự động hóa quy trình CI/C
 
 * **Continuous Integration (CI):** Mỗi khi có push hoặc pull request vào nhánh `main`, workflow sẽ tự động chạy:
     * Cài đặt dependencies.
-    * Kiểm tra code style bằng ESLint (`npm run lint`).
-    * Chạy unit tests và kiểm tra độ bao phủ code (`npm run test:cov`).
     * Build ứng dụng (`npm run build`).
 * **Continuous Deployment (CD):** Nếu CI thành công trên nhánh `main` (chỉ khi `push`), workflow sẽ tự động trigger một deploy mới trên OnRender thông qua Deploy Hook.
