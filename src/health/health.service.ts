@@ -4,6 +4,7 @@ import {
   DailyRecord,
   DailyRecordDocument,
 } from './schemas/daily_records.schema';
+import { UpdateDailyRecordDto } from './dto/update-daily-record.dto';
 import { Goal, GoalDocument } from './schemas/goals.schema';
 import { User, UserDocument } from './schemas/users.schema';
 import { Model } from 'mongoose';
@@ -24,7 +25,7 @@ export class HealthService {
     return createdRecord.save();
   }
 
-  async updateDailyRecordById(id: string, updateData: any) {
+  async updateDailyRecordById(id: string, updateData: UpdateDailyRecordDto) {
     return this.dailyRecordModel.findByIdAndUpdate(
       id,
       { $set: updateData },

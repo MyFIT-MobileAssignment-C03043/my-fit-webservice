@@ -22,6 +22,7 @@ import {
 import { CreateDailyRecordDto } from './dto/create-daily-record.dto';
 import { CreateGoalDto } from './dto/create-goal.dto';
 import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateDailyRecordDto } from './dto/update-daily-record.dto';
 
 @Controller('health')
 export class HealthController {
@@ -63,31 +64,20 @@ export class HealthController {
 
   // update daily records
   @Put('daily-records/:id')
+  @ApiOperation({ summary: 'Cập nhật bản ghi daily record theo ID' })
   @ApiParam({
     name: 'id',
     required: true,
-    description: 'DailyRecord ID (MongoDB _id)',
+    description: 'ID của DailyRecord cần cập nhật (MongoDB _id)',
   })
-  @ApiBody({
-    schema: {
-      type: 'object',
-      properties: {
-        waterIntake: { type: 'number' },
-        steps: { type: 'number' },
-        caloriesIntake: { type: 'number' },
-        sleepHours: { type: 'number' },
-      },
-    },
-  })
+  @ApiBody({ type: UpdateDailyRecordDto })
+  @ApiResponse({ status: 200, description: 'Cập nhật thành công.', type: CreateDailyRecordDto })
+  @ApiResponse({ status: 404, description: 'Không tìm thấy bản ghi.' })
+  @ApiResponse({ status: 400, description: 'Dữ liệu không hợp lệ.' })
   updateDailyRecordById(
     @Param('id') id: string,
     @Body()
-    updateData: Partial<{
-      waterIntake: number;
-      steps: number;
-      caloriesIntake: number;
-      sleepHours: number;
-    }>,
+    updateData: UpdateDailyRecordDto,
   ) {
     return this.healthService.updateDailyRecordById(id, updateData);
   }

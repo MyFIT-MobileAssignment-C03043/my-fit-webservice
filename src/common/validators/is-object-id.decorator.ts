@@ -15,8 +15,8 @@ export function IsObjectId(validationOptions?: ValidationOptions) {
         validate(value: any, args: ValidationArguments): boolean {
           return typeof value === 'string' && Types.ObjectId.isValid(value);
         },
-        defaultMessage(args: ValidationArguments): string {
-          return `${args.property} phải là ObjectId hợp lệ`;
+        defaultMessage(_args: ValidationArguments): string {
+          return `${_args.property} phải là ObjectId hợp lệ`;
         },
       },
     });
