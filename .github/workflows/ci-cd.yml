@@ -1,0 +1,65 @@
+# .github/workflows/ci-cd.yml
+
+name: NestJS CI/CD Pipeline
+
+# Trigger workflow khi có push hoặc pull request vào nhánh main
+on:
+  push:
+    branches: [ main ] 
+  pull_request:
+    branches: [ main ] 
+
+jobs:
+  # ---- Continuous Integration (CI) Job ----
+  build_and_test:
+    name: Build and Test
+    runs-on: ubuntu-latest # Sử dụng Ubuntu làm môi trường chạy
+
+    strategy:
+      matrix:
+        node-version: 20 
+
+    steps:
+    # Bước 1: Checkout code từ repository
+    - name: Checkout Code
+      uses: actions/checkout@v4 # Sử dụng action checkout chính thức
+
+    # Bước 2: Thiết lập môi trường Node.js
+    - name: Setup Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm' # Bật caching cho npm để tăng tốc độ cài đặt dependencies
+
+    # Bước 3: Cài đặt dependencies
+    # Sử dụng 'npm ci' thay vì 'npm install' để đảm bảo cài đặt chính xác từ package-lock.json
+    - name: Install Dependencies
+      run: npm ci
+
+    # Bước 4: Chạy Lint để kiểm tra code style
+    # Dựa trên script 'lint' trong package.json
+    - name: Run Linter
+      run: npm run lint
+
+    # Bước 5: Chạy Unit Tests và tạo báo cáo coverage
+    # Dựa trên script 'test:cov' trong package.json
+    - name: Run Unit Tests
+      run: npm run test:cov
+
+    # Bước 6: Build ứng dụng
+    # Dựa trên script 'build' trong package.json
+    - name: Build Application
+      run: npm run build
+
+  # ---- Continuous Deployment (CD) Job ----
+  deploy:
+    name: Deploy to OnRender
+    needs: build_and_test # Job này chỉ chạy sau khi job 'build_and_test' thành công
+    runs-on: ubuntu-latest
+    # Chỉ chạy job deploy khi có push vào nhánh main (không chạy cho pull request)
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    steps:
+    # Gửi yêu cầu deploy đến OnRender bằng Deploy Hook
+    - name: Trigger OnRender Deploy Hook
+      run: curl -X POST ${{ secrets.ONRENDER_DEPLOY_HOOK_URL }}
