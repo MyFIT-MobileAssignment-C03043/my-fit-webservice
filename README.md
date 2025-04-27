@@ -52,17 +52,6 @@ Tài liệu API chi tiết được cung cấp thông qua Swagger UI, đã đư�
     npm run start:dev
     ```
     Ứng dụng sẽ chạy trên `http://localhost:3000`.
-5.  **Chạy Tests:**
-    ```bash
-    # Chạy tất cả unit test
-    npm run test
-
-    # Chạy unit test và xem báo cáo coverage
-    npm run test:cov
-
-    # Chạy e2e test (cần môi trường chạy đầy đủ)
-    npm run test:e2e
-    ```
 
 ## CI/CD (Tích hợp và Triển khai Liên tục)
 

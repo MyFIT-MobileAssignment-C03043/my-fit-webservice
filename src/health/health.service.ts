@@ -25,7 +25,7 @@ export class HealthService {
     return createdRecord.save();
   }
 
-  async updateDailyRecordById(id: string, updateData: UpdateDailyRecordDto) {
+  async updateDailyRecordById(id: string, updateData: any) {
     return this.dailyRecordModel.findByIdAndUpdate(
       id,
       { $set: updateData },
