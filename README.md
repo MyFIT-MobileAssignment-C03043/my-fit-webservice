@@ -1,5 +1,6 @@
 # My-Fit Web Service
 
+[![Latest Release](https://img.shields.io/github/v/release/MyFIT-MobileAssignment-C03043/my-fit-webservice)](https://github.com/MyFIT-MobileAssignment-C03043/my-fit-webservice/releases/latest)
 [![NestJS CI/CD Pipeline](https://github.com/MyFIT-MobileAssignment-C03043/my-fit-webservice/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/MyFIT-MobileAssignment-C03043/my-fit-webservice/actions/workflows/ci-cd.yml)
 
 Đây là một API backend được xây dựng bằng NestJS để theo dõi các chỉ số sức khỏe cá nhân.
