@@ -6,6 +6,7 @@ import * as dotenv from 'dotenv';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { HealthMetricsModule } from './health-metrics/health-metrics.module';
+import { GoalModule } from './goals/goals.module';
 
 dotenv.config();
 
@@ -21,6 +22,7 @@ if (!mongoUri) {
     HealthMetricsModule,
     AuthModule,
     UsersModule,
+    GoalModule,
   ],
   controllers: [AppController],
   providers: [AppService],

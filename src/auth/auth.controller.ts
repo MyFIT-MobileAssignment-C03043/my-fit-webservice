@@ -33,9 +33,14 @@ export class AuthController {
   @Post('login')
   @ApiOperation({ summary: 'Đăng nhập và lấy JWT token' })
   @ApiResponse({
-    status: 200,
+    status: 201,
     description: 'Đăng nhập thành công',
-    type: String,
+    type: typeof {
+      access_token: 'access_token',
+    },
+    example: {
+      access_token: 'access_token',
+    },
   })
   @ApiResponse({
     status: 401,
