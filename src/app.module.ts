@@ -2,8 +2,10 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
-import { HealthModule } from './health/health.module';
 import * as dotenv from 'dotenv';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
+import { HealthMetricsModule } from './health-metrics/health-metrics.module';
 
 dotenv.config();
 
@@ -16,10 +18,11 @@ if (!mongoUri) {
 @Module({
   imports: [
     MongooseModule.forRoot(mongoUri),
-    HealthModule,  // Đảm bảo bạn đã tạo module này
+    HealthMetricsModule,
+    AuthModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-
 export class AppModule {}
