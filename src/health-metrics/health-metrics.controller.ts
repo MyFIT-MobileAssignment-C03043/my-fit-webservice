@@ -11,6 +11,7 @@ import {
   ForbiddenException,
   Query,
   Put,
+  BadRequestException,
 } from '@nestjs/common';
 import { HealthMetricsService } from './health-metrics.service';
 import { CreateHealthMetricRecordDto } from './dto/create-health-metric-record.dto';
@@ -19,6 +20,8 @@ import {
   ApiBearerAuth,
   ApiBody,
   ApiOperation,
+  ApiParam,
+  ApiQuery,
   ApiResponse,
 } from '@nestjs/swagger';
 import { RolesGuard } from 'src/auth/role/roles.guard';
@@ -239,7 +242,7 @@ export class HealthMetricsController {
       );
     }
 
-    return await this.healthMetricsService.delete(id);
+    return await this.healthMetricsService.delete(id, userId);
   }
 
   // API lấy record của user trong một ngày cụ thể
@@ -407,5 +410,67 @@ export class HealthMetricsController {
   })
   async findAll() {
     return await this.healthMetricsService.findAll();
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('user/metric-type/date-range')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Lấy dữ liệu theo loại metric và khoảng ngày' })
+  @ApiParam({
+    name: 'metricType',
+    required: true,
+    description: 'Loại chỉ số sức khỏe (ví dụ: weight, heartRate)',
+    type: String,
+  })
+  @ApiQuery({
+    name: 'start',
+    required: true,
+    description: 'Ngày bắt đầu (định dạng ISO 8601, ví dụ: 2024-01-01)',
+    type: String,
+  })
+  @ApiQuery({
+    name: 'end',
+    required: true,
+    description: 'Ngày kết thúc (định dạng ISO 8601, ví dụ: 2024-01-31)',
+    type: String,
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Danh sách bản ghi chỉ số sức khỏe',
+    type: [HealthMetricRecord],
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Thiếu hoặc sai định dạng ngày',
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Không được phép truy cập (chưa đăng nhập)',
+  })
+  async findByUserIdAndDateRange(
+    @Request() req: AuthenticatedRequest, // Lấy userId từ JWT
+    @Param('metricType') metricType: string,
+    @Query('start') start: string,
+    @Query('end') end: string,
+  ): Promise<HealthMetricRecord[]> {
+    const userId = req.user.userId;
+
+    if (!start || !end) {
+      throw new BadRequestException('Missing start or end date');
+    }
+
+    const startDate = new Date(start);
+    const endDate = new Date(end);
+
+    if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+      throw new BadRequestException('Invalid date format');
+    }
+
+    return this.healthMetricsService.findByUserIdAndMetricTypeAndDateRange(
+      userId,
+      metricType,
+      startDate,
+      endDate,
+    );
   }
 }

@@ -12,9 +12,11 @@ import {
   ExerciseDetailsSchema,
 } from './schemas/exercise-details.schema';
 import { MetricDetailsValidator } from './validators/MetricDetailsValidator';
+import { UsersModule } from 'src/users/users.module';
 
 @Module({
   imports: [
+    UsersModule,
     MongooseModule.forFeature([
       { name: HealthMetricRecord.name, schema: HealthMetricRecordSchema },
       { name: MealDetails.name, schema: MealDetailsSchema },

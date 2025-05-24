@@ -20,6 +20,12 @@ export class UserResponseDto {
   name: string;
 
   @ApiProperty({
+    description: 'Địa chỉ của người dùng',
+    example: 'Linh Trung, Thủ Đức, HCM',
+  })
+  address: string;
+
+  @ApiProperty({
     description: 'Giới tính',
     example: 'Nam', // Ví dụ về giới tính người dùng
   })

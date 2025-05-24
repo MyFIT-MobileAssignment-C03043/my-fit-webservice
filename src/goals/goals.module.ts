@@ -1,15 +1,15 @@
+// src/goals/goal.module.ts
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Goal, GoalSchema } from './schemas/goals.schema';
-import { GoalController } from './goals.controller';
-import { GoalService } from './goals.service';
+import { GoalsService } from './goals.service';
+import { GoalsController } from './goals.controller';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Goal.name, schema: GoalSchema }]),
   ],
-  controllers: [GoalController],
-  providers: [GoalService],
-  exports: [GoalService], // Nếu cần sử dụng GoalService ở module khác
+  controllers: [GoalsController],
+  providers: [GoalsService],
 })
 export class GoalModule {}

@@ -14,6 +14,9 @@ export class User extends Document {
   @Prop({ required: true })
   name: string;
 
+  @Prop({ required: false }) // Address là trường tùy chọn
+  address?: string;
+
   @Prop({ required: false }) // Giới tính là trường tùy chọn
   gender?: string;
 

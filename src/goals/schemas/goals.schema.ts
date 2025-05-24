@@ -1,54 +1,68 @@
+// src/goals/goal.schema.ts
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { GoalType } from '../enums/goal-type.enum';
-import { ApiProperty } from '@nestjs/swagger';
 
 export type GoalDocument = Goal & Document;
 
-@Schema({ timestamps: true }) // Tự động thêm createdAt và updatedAt
-export class Goal extends Document {
-  @ApiProperty({
-    description: 'ID của người dùng',
-    example: '60d6f9f5f5b0a75b6c3b8e4e', // Ví dụ về một ID người dùng
-  })
-  @Prop({ required: true })
-  userId: string;
+@Schema({ _id: false })
+class GoalValue {
+  @Prop({ required: true }) value: number;
+  @Prop({ required: true }) unit: string;
+  @Prop({ required: true }) frequency: string;
+}
 
-  @ApiProperty({
-    description: 'Loại mục tiêu',
-    enum: GoalType,
-    example: 'steps',
-  })
-  @Prop({ required: true })
-  type: GoalType;
+@Schema({ _id: false })
+class Sleeping {
+  @Prop({ required: true }) start: Date;
+  @Prop({ required: true }) end: Date;
+  @Prop({ required: true }) frequency: string;
+}
 
-  @ApiProperty({
-    description: 'Mục tiêu của người dùng',
-    example: 2500,
-  })
-  @Prop({ required: true })
-  target: number;
+@Schema({ _id: false })
+class WeightGoal {
+  @Prop() target: number;
+  @Prop({ required: true }) unit: string;
+}
 
-  @ApiProperty({
-    description: 'Ngày bắt đầu mục tiêu',
-    example: '2025-05-01T00:00:00.000Z',
-  })
-  @Prop({ required: true })
-  startDate: Date;
+@Schema({ _id: false })
+class PercentageGoal {
+  @Prop({ required: true }) target: number;
+  @Prop({ required: true }) unit: string;
+}
 
-  @ApiProperty({
-    description: 'Ngày kết thúc mục tiêu',
-    example: '2025-06-01T00:00:00.000Z',
-  })
-  @Prop({ required: true })
-  endDate: Date;
+@Schema()
+export class Goal {
+  @Prop({ required: true }) userId: string;
 
-  @ApiProperty({
-    description: 'Trạng thái hoạt động của mục tiêu',
-    example: true,
-  })
-  @Prop({ required: true, default: true })
-  isActive: Boolean;
+  @Prop({ type: GoalValue, required: false }) // optional
+  activity_exerciseHours?: GoalValue;
+
+  @Prop({ type: GoalValue, required: false })
+  activity_steps?: GoalValue;
+
+  @Prop({ type: Sleeping, required: false })
+  activity_sleeping?: Sleeping;
+
+  @Prop({ type: WeightGoal, required: false })
+  health_weight?: WeightGoal;
+
+  @Prop({ type: PercentageGoal, required: false })
+  health_bodyFatPercentage?: PercentageGoal;
+
+  @Prop({ type: GoalValue, required: false })
+  nutrition_food?: GoalValue;
+
+  @Prop({ type: GoalValue, required: false })
+  nutrition_energyBurned?: GoalValue;
+
+  @Prop({ type: GoalValue, required: false })
+  nutrition_water?: GoalValue;
+
+  @Prop({ default: Date.now })
+  createdAt: Date;
+
+  @Prop({ default: Date.now })
+  updatedAt: Date;
 }
 
 export const GoalSchema = SchemaFactory.createForClass(Goal);

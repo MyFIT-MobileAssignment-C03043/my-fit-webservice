@@ -17,7 +17,9 @@ export class AuthController {
   @ApiResponse({
     status: 201,
     description: 'Đăng ký thành công',
-    type: String,
+    example: {
+      access_token: 'access_token',
+    },
   })
   @ApiResponse({
     status: 409,
@@ -35,9 +37,6 @@ export class AuthController {
   @ApiResponse({
     status: 201,
     description: 'Đăng nhập thành công',
-    type: typeof {
-      access_token: 'access_token',
-    },
     example: {
       access_token: 'access_token',
     },

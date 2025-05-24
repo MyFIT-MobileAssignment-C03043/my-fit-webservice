@@ -8,9 +8,6 @@ import { CreateHealthMetricRecordDto } from '../dto/create-health-metric-record.
 @ValidatorConstraint({ async: false })
 export class MetricDetailsValidator implements ValidatorConstraintInterface {
   validate(value: any, args: ValidationArguments) {
-    console.log('Validator is running...');
-    console.log('Value:', value);
-    console.log('Arguments:', args);
 
     // Truy cập vào đối tượng gốc từ args.object và khai báo kiểu là CreateHealthMetricRecordDto
     const object = args.object as CreateHealthMetricRecordDto; // Chỉ rõ kiểu của object

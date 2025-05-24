@@ -42,10 +42,10 @@ export class UserController {
     const user = await this.userService.findById(req.user.userId);
 
     // Chỉ map ra những field mình cho phép trả ra
-    const { _id, email, name, gender, age, height, weight, role } =
+    const { _id, email, name, address, gender, age, height, weight, role } =
       user.toObject();
 
-    return { _id, email, name, gender, age, height, weight, role };
+    return { _id, email, name, address, gender, age, height, weight, role };
   }
 
   // Lấy tất cả thông tin người dùng (chỉ admin mới được phép)
@@ -66,9 +66,9 @@ export class UserController {
 
     return users.map((user) => {
       // Chỉ map ra những field mình cho phép trả ra
-      const { _id, email, name, gender, age, height, weight, role } =
+      const { _id, email, name, address, gender, age, height, weight, role } =
         user.toObject();
-      return { _id, email, name, gender, age, height, weight, role };
+      return { _id, email, name, address, gender, age, height, weight, role };
     });
   }
 
@@ -92,9 +92,9 @@ export class UserController {
     const user = await this.userService.update(userId, updateData); // Cập nhật cho chính người dùng
 
     // Chỉ map ra những field mình cho phép trả ra
-    const { _id, email, name, gender, age, height, weight, role } =
+    const { _id, email, name, address, gender, age, height, weight, role } =
       user.toObject();
 
-    return { _id, email, name, gender, age, height, weight, role };
+    return { _id, email, name, address, gender, age, height, weight, role };
   }
 }

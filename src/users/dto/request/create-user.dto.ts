@@ -44,6 +44,15 @@ export class CreateUserDto {
   name: string;
 
   @ApiProperty({
+    description: 'Địa chỉ của người dùng',
+    example: 'Linh Trung, Thủ Đức, HCM',
+    required: false,
+  })
+  @IsString()
+  @IsOptional()
+  address?: string;
+
+  @ApiProperty({
     description: 'Giới tính của người dùng',
     example: 'Nam',
     required: false,
