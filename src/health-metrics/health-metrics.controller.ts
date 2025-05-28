@@ -250,7 +250,8 @@ export class HealthMetricsController {
   @Get('user/day')
   @ApiBearerAuth()
   @ApiOperation({
-    summary: 'Lấy record chỉ số sức khoẻ của user trong một ngày cụ thể',
+    summary:
+      'Lấy các record chỉ số sức khoẻ trong khoảng 24 tính từ date (url query)',
   })
   @ApiResponse({
     status: 200,
@@ -313,7 +314,7 @@ export class HealthMetricsController {
   @ApiBearerAuth()
   @ApiOperation({
     summary:
-      'Lấy tất cả các record của một loại chỉ số sức khoẻ trong một ngày cụ thể của user',
+      'Lấy các record của một loại chỉ số sức khoẻ cụ thể trong khoảng 24h tính từ date (url query)',
   })
   @ApiResponse({
     status: 200,
@@ -348,14 +349,16 @@ export class HealthMetricsController {
   async findByUserIdAndMetricTypeAndDate(
     @Request() req: any, // Lấy userId từ JWT
     @Query('metricType') metricType: string, // Loại chỉ số sức khoẻ (ví dụ: 'weight', 'height', ...)
-    @Query('date') date: string, // Ngày cần lọc, theo định dạng 'YYYY-MM-DD'
+    @Query('date') date: string, // Ngày cần lọc, theo định dạng 'YYYY-MM-DDTHH:mm:ss.sssZ'
   ) {
     const userId = req.user.userId; // Lấy userId từ JWT
 
     // Kiểm tra và parse ngày
     const dateObj = new Date(date);
     if (isNaN(dateObj.getTime())) {
-      throw new NotFoundException('Invalid date format. Use YYYY-MM-DD.');
+      throw new BadRequestException(
+        'Invalid date format. Use YYYY-MM-DDTHH:mm:ss.sssZ.',
+      );
     }
 
     // Lọc các record của user trong ngày đó và loại chỉ số sức khoẻ
@@ -415,7 +418,10 @@ export class HealthMetricsController {
   @UseGuards(JwtAuthGuard)
   @Get('user/metric-type/date-range')
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Lấy dữ liệu theo loại metric và khoảng ngày' })
+  @ApiOperation({
+    summary:
+      'Lấy dữ liệu theo loại metric trong khoảng thời gian từ start đến end',
+  })
   @ApiParam({
     name: 'metricType',
     required: true,
@@ -425,13 +431,15 @@ export class HealthMetricsController {
   @ApiQuery({
     name: 'start',
     required: true,
-    description: 'Ngày bắt đầu (định dạng ISO 8601, ví dụ: 2024-01-01)',
+    description:
+      'Ngày bắt đầu (định dạng ISO 8601, ví dụ: 2025-04-27T17:00:00.000Z)',
     type: String,
   })
   @ApiQuery({
     name: 'end',
     required: true,
-    description: 'Ngày kết thúc (định dạng ISO 8601, ví dụ: 2024-01-31)',
+    description:
+      'Ngày kết thúc (định dạng ISO 8601, ví dụ: 2025-05-27T17:00:00.000Z)',
     type: String,
   })
   @ApiResponse({
@@ -463,7 +471,9 @@ export class HealthMetricsController {
     const endDate = new Date(end);
 
     if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
-      throw new BadRequestException('Invalid date format');
+      throw new BadRequestException(
+        'Invalid date format. Use YYYY-MM-DDTHH:mm:ss.sssZ.',
+      );
     }
 
     return this.healthMetricsService.findByUserIdAndMetricTypeAndDateRange(

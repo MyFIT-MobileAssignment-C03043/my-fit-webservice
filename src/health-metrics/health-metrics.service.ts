@@ -208,13 +208,12 @@ export class HealthMetricsService {
     userId: string,
     date: Date,
   ): Promise<HealthMetricRecord[]> {
-    const startOfDay = new Date(date.setHours(0, 0, 0, 0)); // Bắt đầu ngày
-    const endOfDay = new Date(date.setHours(23, 59, 59, 999)); // Kết thúc ngày
+    const endTime = new Date(date.getTime() + 24 * 60 * 60 * 1000 - 1);
 
     const records = await this.healthMetricRecordModel
       .find({
         userId: userId,
-        date: { $gte: startOfDay, $lte: endOfDay }, // Lọc theo ngày
+        date: { $gte: date, $lte: endTime }, // Lọc 24h từ tham số date
       })
       .sort({ date: -1 })
       .exec();
@@ -227,14 +226,13 @@ export class HealthMetricsService {
     metricType: string,
     date: Date,
   ): Promise<HealthMetricRecord[]> {
-    const startOfDay = new Date(date.setHours(0, 0, 0, 0)); // Bắt đầu ngày
-    const endOfDay = new Date(date.setHours(23, 59, 59, 999)); // Kết thúc ngày
+    const endTime = new Date(date.getTime() + 24 * 60 * 60 * 1000 - 1);
 
     const records = await this.healthMetricRecordModel
       .find({
         userId: userId,
         metricType: metricType, // Lọc theo loại chỉ số sức khoẻ
-        date: { $gte: startOfDay, $lte: endOfDay }, // Lọc theo ngày
+        date: { $gte: date, $lte: endTime }, // Lọc 24h từ tham số date
       })
       .sort({ date: -1 })
       .exec();
@@ -260,14 +258,11 @@ export class HealthMetricsService {
     startDate: Date,
     endDate: Date,
   ): Promise<HealthMetricRecord[]> {
-    const start = new Date(startDate.setHours(0, 0, 0, 0)); // Đầu ngày của startDate
-    const end = new Date(endDate.setHours(23, 59, 59, 999)); // Cuối ngày của endDate
-
     const records = await this.healthMetricRecordModel
       .find({
         userId,
         metricType,
-        date: { $gte: start, $lte: end },
+        date: { $gte: startDate, $lte: endDate },
       })
       .sort({ date: -1 })
       .exec();
