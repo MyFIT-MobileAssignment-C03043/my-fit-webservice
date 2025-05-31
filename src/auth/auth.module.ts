@@ -10,8 +10,8 @@ import { UsersModule } from 'src/users/users.module';
   imports: [
     UsersModule,
     JwtModule.register({
-      secret: 'your_secret_key', // Thay thế bằng secret key của bạn
-      signOptions: { expiresIn: '1h' }, // Token hết hạn sau 1 giờ
+      secret: process.env.JWT_SECRET_KEY || 'your_default_secret_key', // Thay thế bằng secret key của bạn
+      signOptions: { expiresIn: '3h' }, // Token hết hạn sau 3 giờ
     }),
   ],
   controllers: [AuthController],

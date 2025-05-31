@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IsMongoId } from 'class-validator';
 
 export class UserResponseDto {
   @ApiProperty({
@@ -23,35 +24,35 @@ export class UserResponseDto {
     description: 'Địa chỉ của người dùng',
     example: 'Linh Trung, Thủ Đức, HCM',
   })
-  address: string;
+  address?: string;
 
   @ApiProperty({
     description: 'Giới tính',
     example: 'Nam', // Ví dụ về giới tính người dùng
   })
-  gender: string;
+  gender?: string;
 
   @ApiProperty({
     description: 'Tuổi',
     example: 25, // Ví dụ về tuổi người dùng
   })
-  age: number;
+  age?: number;
 
   @ApiProperty({
     description: 'Chiều cao (cm)',
     example: 175, // Ví dụ về chiều cao người dùng
   })
-  height: number;
+  height?: number;
 
   @ApiProperty({
     description: 'Cân nặng (kg)',
     example: 70, // Ví dụ về cân nặng người dùng
   })
-  weight: number;
+  weight?: number;
 
   @ApiProperty({
     description: 'Vai trò của người dùng (ví dụ: admin, user)',
     example: 'user', // Ví dụ về vai trò người dùng
   })
-  role: string; // Thêm trường 'role' cho người dùng
+  role?: string; // Thêm trường 'role' cho người dùng
 }

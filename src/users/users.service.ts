@@ -6,17 +6,28 @@ import { User } from './schemas/user.schema';
 import { RegisterUserDto } from 'src/auth/dto/request/register-user.dto';
 import { UpdateUserDto } from './dto/request/update-user.dto';
 import { CreateUserDto } from './dto/request/create-user.dto';
+import { UserResponseDto } from './dto/response/user-response.dto';
+import { GoalsService } from 'src/goals/goals.service';
+import { CreateGoalDto } from 'src/goals/dto/create-goal.dto';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectModel(User.name) private readonly userModel: Model<User>,
+    private readonly goalsService: GoalsService,
   ) {}
 
   // Tạo mới người dùng
-  async create(createUserDto: CreateUserDto): Promise<User> {
-    const createdUser = new this.userModel(createUserDto);
-    return createdUser.save();
+  async create(createUserDto: CreateUserDto): Promise<UserResponseDto> {
+    const createdUser = await new this.userModel(createUserDto).save();
+
+    const createGoalDto: CreateGoalDto = {};
+    const userGoals = await this.goalsService.create(
+      createdUser._id,
+      createGoalDto,
+    );
+
+    return createdUser;
   }
 
   // Tìm người dùng theo email

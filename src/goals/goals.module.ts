@@ -11,5 +11,6 @@ import { GoalsController } from './goals.controller';
   ],
   controllers: [GoalsController],
   providers: [GoalsService],
+  exports: [GoalsService],
 })
 export class GoalModule {}

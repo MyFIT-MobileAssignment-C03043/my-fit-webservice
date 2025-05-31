@@ -2,12 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { JwtService as NestJwtService } from '@nestjs/jwt';
 import { User } from 'src/users/schemas/user.schema';
 import { AuthResponseDto } from '../dto/response/auth-response.dto';
+import { UserResponseDto } from 'src/users/dto/response/user-response.dto';
 
 @Injectable()
 export class JwtService {
   constructor(private readonly jwtService: NestJwtService) {}
 
-  async generateToken(user: User): Promise<AuthResponseDto> {
+  async generateToken(user: UserResponseDto): Promise<AuthResponseDto> {
     const payload = {
       userId: user._id,
       email: user.email,

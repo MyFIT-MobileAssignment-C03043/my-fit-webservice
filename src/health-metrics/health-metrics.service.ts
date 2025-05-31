@@ -260,9 +260,25 @@ export class HealthMetricsService {
   ): Promise<HealthMetricRecord[]> {
     const records = await this.healthMetricRecordModel
       .find({
-        userId,
-        metricType,
+        userId: userId,
+        metricType: metricType,
         date: { $gte: startDate, $lte: endDate },
+      })
+      .sort({ date: -1 })
+      .exec();
+
+    return records;
+  }
+
+  // Lấy các HealthMetricRecord theo metricType
+  async findByUserIdAndMetricType(
+    userId: string,
+    metricType: string,
+  ): Promise<HealthMetricRecord[]> {
+    const records = await this.healthMetricRecordModel
+      .find({
+        userId: userId,
+        metricType: metricType,
       })
       .sort({ date: -1 })
       .exec();

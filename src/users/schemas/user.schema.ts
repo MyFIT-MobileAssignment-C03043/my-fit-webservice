@@ -4,7 +4,7 @@ import { Document } from 'mongoose';
 import { Role } from 'src/auth/role/roles.enum';
 
 @Schema({ timestamps: true }) // Tự động thêm createdAt và updatedAt
-export class User extends Document {
+export class User extends Document<string> {
   @Prop({ required: true, unique: true })
   email: string;
 

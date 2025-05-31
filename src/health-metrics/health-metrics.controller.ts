@@ -422,7 +422,7 @@ export class HealthMetricsController {
     summary:
       'Lấy dữ liệu theo loại metric trong khoảng thời gian từ start đến end',
   })
-  @ApiParam({
+  @ApiQuery({
     name: 'metricType',
     required: true,
     description: 'Loại chỉ số sức khỏe (ví dụ: weight, heartRate)',
@@ -457,7 +457,7 @@ export class HealthMetricsController {
   })
   async findByUserIdAndDateRange(
     @Request() req: AuthenticatedRequest, // Lấy userId từ JWT
-    @Param('metricType') metricType: string,
+    @Query('metricType') metricType: string,
     @Query('start') start: string,
     @Query('end') end: string,
   ): Promise<HealthMetricRecord[]> {
@@ -481,6 +481,34 @@ export class HealthMetricsController {
       metricType,
       startDate,
       endDate,
+    );
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('user/metric-type')
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: 'Lấy dữ liệu theo loại metric',
+  })
+  @ApiQuery({
+    name: 'metricType',
+    required: true,
+    description: 'Loại chỉ số sức khỏe (ví dụ: weight, heartRate)',
+    type: String,
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Danh sách bản ghi chỉ số sức khỏe',
+    type: [HealthMetricRecord],
+  })
+  async findByUserIdAndMetricType(
+    @Request() req: AuthenticatedRequest, // Lấy userId từ JWT
+    @Query('metricType') metricType: string,
+  ): Promise<HealthMetricRecord[]> {
+    const userId = req.user.userId;
+    return this.healthMetricsService.findByUserIdAndMetricType(
+      userId,
+      metricType,
     );
   }
 }
